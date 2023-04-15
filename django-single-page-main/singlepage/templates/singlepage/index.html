@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'mysite/styles.css' %}">
+</head>
+
+<body>
+    <script src="{% static 'mysite/script.js' %}"></script>
+
+    <h1>My cousin is a literal dementor you don't have the right to like Harry Potter</h1>
+
+    {% if previous_ans %}
+    <ul id="previous-answers">
+        {% for line in previous_ans %}
+        <li>{{ line|safe }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <h2>{{ question }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" name="guess">
+        <input type="submit" value="Guess">
+    </form>
+
+    <br>
+
+    <a href="{% url 'refresh_session' %}">Restart</a>
+
+    {% if score %}
+    <p class="score">Correct: {{ score.correct }} / Incorrect: {{ score.incorrect }}</p>
+    {% endif %}
+
+    <script>
+        function scrollToBottom() {
+            var element = document.getElementById("previous-answers");
+            element.scrollTop = element.scrollHeight;
+        }
+        scrollToBottom();
+    </script>
+
+</body>
+
+</html>
